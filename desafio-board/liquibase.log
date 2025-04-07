@@ -1,46 +1,60 @@
-abr. 07, 2025 5:58:52 PM liquibase.changelog
+abr. 07, 2025 7:05:15 PM liquibase.changelog
 INFO: Reading resource: db/changelog/migrations/db.changelog-001.sql
-abr. 07, 2025 5:58:52 PM liquibase.changelog
-INFO: Creating database history table with name: board.DATABASECHANGELOG
-abr. 07, 2025 5:58:52 PM liquibase.changelog
+abr. 07, 2025 7:05:15 PM liquibase.changelog
+INFO: Reading resource: db/changelog/migrations/db.changelog-002.sql
+abr. 07, 2025 7:05:15 PM liquibase.changelog
+INFO: Reading resource: db/changelog/migrations/db.changelog-003.sql
+abr. 07, 2025 7:05:15 PM liquibase.changelog
+INFO: Reading resource: db/changelog/migrations/db.changelog-004.sql
+abr. 07, 2025 7:05:15 PM liquibase.changelog
 INFO: Reading from board.DATABASECHANGELOG
-abr. 07, 2025 5:58:53 PM liquibase.lockservice
+abr. 07, 2025 7:05:16 PM liquibase.lockservice
 INFO: Successfully acquired change log lock
-abr. 07, 2025 5:58:53 PM liquibase.command
-INFO: Using deploymentId: 4059533305
-abr. 07, 2025 5:58:53 PM liquibase.changelog
+abr. 07, 2025 7:05:16 PM liquibase.command
+INFO: Using deploymentId: 4063516130
+abr. 07, 2025 7:05:16 PM liquibase.changelog
 INFO: Reading from board.DATABASECHANGELOG
-Running Changeset: db/changelog/migrations/db.changelog-001.sql::001::lucas
-abr. 07, 2025 5:58:53 PM liquibase.changelog
+Running Changeset: db/changelog/migrations/db.changelog-002.sql::001::lucas
+abr. 07, 2025 7:05:16 PM liquibase.changelog
 INFO: Custom SQL executed
-abr. 07, 2025 5:58:53 PM liquibase.changelog
-INFO: ChangeSet db/changelog/migrations/db.changelog-001.sql::001::lucas ran successfully in 37ms
+abr. 07, 2025 7:05:16 PM liquibase.changelog
+INFO: ChangeSet db/changelog/migrations/db.changelog-002.sql::001::lucas ran successfully in 66ms
+Running Changeset: db/changelog/migrations/db.changelog-003.sql::001::lucas
+abr. 07, 2025 7:05:16 PM liquibase.changelog
+INFO: Custom SQL executed
+abr. 07, 2025 7:05:16 PM liquibase.changelog
+INFO: ChangeSet db/changelog/migrations/db.changelog-003.sql::001::lucas ran successfully in 47ms
+Running Changeset: db/changelog/migrations/db.changelog-004.sql::001::lucas
+abr. 07, 2025 7:05:16 PM liquibase.changelog
+INFO: Custom SQL executed
+abr. 07, 2025 7:05:16 PM liquibase.changelog
+INFO: ChangeSet db/changelog/migrations/db.changelog-004.sql::001::lucas ran successfully in 41ms
 
 UPDATE SUMMARY
-Run:                          1
-Previously run:               0
+Run:                          3
+Previously run:               1
 Filtered out:                 0
 -------------------------------
-Total change sets:            1
+Total change sets:            4
 
-abr. 07, 2025 5:58:53 PM liquibase.util
+abr. 07, 2025 7:05:16 PM liquibase.util
 INFO: UPDATE SUMMARY
-abr. 07, 2025 5:58:53 PM liquibase.util
-INFO: Run:                          1
-abr. 07, 2025 5:58:53 PM liquibase.util
-INFO: Previously run:               0
-abr. 07, 2025 5:58:53 PM liquibase.util
+abr. 07, 2025 7:05:16 PM liquibase.util
+INFO: Run:                          3
+abr. 07, 2025 7:05:16 PM liquibase.util
+INFO: Previously run:               1
+abr. 07, 2025 7:05:16 PM liquibase.util
 INFO: Filtered out:                 0
-abr. 07, 2025 5:58:53 PM liquibase.util
+abr. 07, 2025 7:05:16 PM liquibase.util
 INFO: -------------------------------
-abr. 07, 2025 5:58:53 PM liquibase.util
-INFO: Total change sets:            1
-abr. 07, 2025 5:58:53 PM liquibase.util
+abr. 07, 2025 7:05:16 PM liquibase.util
+INFO: Total change sets:            4
+abr. 07, 2025 7:05:16 PM liquibase.util
 INFO: Update summary generated
-abr. 07, 2025 5:58:53 PM liquibase.command
+abr. 07, 2025 7:05:16 PM liquibase.command
 INFO: Update command completed successfully.
-Liquibase: Update has been successful. Rows affected: 1
-abr. 07, 2025 5:58:53 PM liquibase.lockservice
+Liquibase: Update has been successful. Rows affected: 3
+abr. 07, 2025 7:05:16 PM liquibase.lockservice
 INFO: Successfully released change log lock
-abr. 07, 2025 5:58:53 PM liquibase.command
+abr. 07, 2025 7:05:16 PM liquibase.command
 INFO: Command execution complete
