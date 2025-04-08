@@ -1,11 +1,13 @@
 package dio.board.persistence.dao;
 
 import dio.board.persistence.entity.BoardColumnEntity;
+import dio.board.persistence.entity.TipoColumnEnum;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,6 +33,21 @@ public class BoardColumnDAO {
     }
 
     public List<BoardColumnEntity> findByBoardId(Long id) throws  SQLException{
-        return null;
+        List<BoardColumnEntity> entities = new ArrayList<>();
+        var sql = "SELECT id, nome, `ordem`, tipo FROM BOARDS_COLUMNS WHERE board_id = ? ORDER BY `ordem`";
+        try(var statement = connection.prepareStatement(sql)){
+            statement.setLong(1, id);
+            statement.executeQuery();
+            var resultSet = statement.getResultSet();
+            while (resultSet.next()){
+                var entity = new BoardColumnEntity();
+                entity.setId(resultSet.getLong("id"));
+                entity.setNome(resultSet.getString("nome"));
+                entity.setOrdem(resultSet.getInt("ordem"));
+                entity.setTipo(TipoColumnEnum.findByName(resultSet.getString("tipo")));
+                entities.add(entity);
+            }
+            return entities;
+        }
     }
 }
