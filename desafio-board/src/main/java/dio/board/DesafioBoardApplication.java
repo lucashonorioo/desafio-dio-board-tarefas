@@ -1,6 +1,7 @@
 package dio.board;
 
 import dio.board.persistence.migration.MigrationStrategy;
+import dio.board.ui.MainMenu;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -16,6 +17,7 @@ public class DesafioBoardApplication {
 		try(var connection = getConnection()){
 			new MigrationStrategy(connection).executeMigration();
 		}
+		new MainMenu().execute();
 
 	}
 
