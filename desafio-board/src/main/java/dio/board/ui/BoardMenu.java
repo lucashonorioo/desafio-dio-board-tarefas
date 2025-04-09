@@ -1,7 +1,9 @@
 package dio.board.ui;
 
 import dio.board.persistence.config.ConnectionConfig;
+import dio.board.persistence.entity.BoardColumnEntity;
 import dio.board.persistence.entity.BoardEntity;
+import dio.board.service.BoardColumnQueryService;
 import dio.board.service.BoardQueryService;
 import lombok.AllArgsConstructor;
 
@@ -66,4 +68,23 @@ public class BoardMenu {
             });
         }
     }
+
+    private void showColumn() throws SQLException {
+        var columnsIds = entity.getBoardColumns().stream().map(BoardColumnEntity::getId).toList();
+        var selectedColumnId = -1L;
+        while (!columnsIds.contains(selectedColumnId)){
+            System.out.printf("Escolha uma coluna do board %s pelo id\n", entity.getNome());
+            entity.getBoardColumns().forEach(c -> System.out.printf("%s - %s [%s]\n", c.getId(), c.getNome(), c.getTipo()));
+            selectedColumnId = sc.nextLong();
+        }
+        try(var connection = ConnectionConfig.getConnection()){
+            var column = new BoardColumnQueryService(connection).findById(selectedColumnId);
+            column.ifPresent(co -> {
+                System.out.printf("Coluna %s tipo %s\n", co.getNome(), co.getTipo());
+                co.getCards().forEach(ca -> System.out.printf("Card %s - %s\nDescrição: %s",
+                        ca.getId(), ca.getTitulo(), ca.getDescricao()));
+            });
+        }
+    }
+
 }

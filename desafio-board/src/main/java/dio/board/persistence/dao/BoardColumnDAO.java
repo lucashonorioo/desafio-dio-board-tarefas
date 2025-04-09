@@ -2,6 +2,7 @@ package dio.board.persistence.dao;
 
 import dio.board.dto.BoardColumnDTO;
 import dio.board.persistence.entity.BoardColumnEntity;
+import dio.board.persistence.entity.CardEntity;
 import dio.board.persistence.entity.TipoColumnEnum;
 import lombok.RequiredArgsConstructor;
 
@@ -10,6 +11,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Objects.isNull;
 
 @RequiredArgsConstructor
 public class BoardColumnDAO {
@@ -80,6 +84,43 @@ public class BoardColumnDAO {
                 dtos.add(dto);
             }
             return dtos;
+        }
+    }
+
+    public Optional<BoardColumnEntity> findById(final Long boardId) throws SQLException{
+        var sql =
+                """
+                SELECT bc.nome,
+                       bc.tipo,
+                       c.id,
+                       c.titulo,
+                       c.descricao
+                  FROM BOARDS_COLUMNS bc
+                  LEFT JOIN CARDS c
+                    ON c.board_column_id = bc.id
+                 WHERE bc.id = ?;
+                """;
+        try(var statement = connection.prepareStatement(sql)){
+            statement.setLong(1, boardId);
+            statement.executeQuery();
+            var resultSet = statement.getResultSet();
+            if (resultSet.next()){
+                var entity = new BoardColumnEntity();
+                entity.setNome(resultSet.getString("bc.nome"));
+                entity.setTipo(TipoColumnEnum.findByName(resultSet.getString("bc.tipo")));
+                do {
+                    var card = new CardEntity();
+                    if (isNull(resultSet.getString("c.titulo"))){
+                        break;
+                    }
+                    card.setId(resultSet.getLong("c.id"));
+                    card.setTitulo(resultSet.getString("c.titulo"));
+                    card.setDescricao(resultSet.getString("c.descricao"));
+                    entity.getCards().add(card);
+                }while (resultSet.next());
+                return Optional.of(entity);
+            }
+            return Optional.empty();
         }
     }
 
