@@ -1,5 +1,6 @@
 package dio.board.persistence.dao;
 
+import dio.board.dto.BoardColumnDTO;
 import dio.board.persistence.entity.BoardColumnEntity;
 import dio.board.persistence.entity.TipoColumnEnum;
 import lombok.RequiredArgsConstructor;
@@ -50,4 +51,36 @@ public class BoardColumnDAO {
             return entities;
         }
     }
+
+    public List<BoardColumnDTO> findByBoardIdWithDetails(final Long boardId) throws SQLException {
+        List<BoardColumnDTO> dtos = new ArrayList<>();
+        var sql =
+                """
+                SELECT bc.id,
+                       bc.nome,
+                       bc.tipo,
+                       (SELECT COUNT(c.id)
+                               FROM CARDS c
+                              WHERE c.board_column_id = bc.id) cards_amount
+                  FROM BOARDS_COLUMNS bc
+                 WHERE board_id = ?
+                 ORDER BY `tipo`;
+                """;
+        try(var statement = connection.prepareStatement(sql)){
+            statement.setLong(1, boardId);
+            statement.executeQuery();
+            var resultSet = statement.getResultSet();
+            while (resultSet.next()){
+                var dto = new BoardColumnDTO(
+                        resultSet.getLong("bc.id"),
+                        resultSet.getString("bc.nome"),
+                        TipoColumnEnum.findByName(resultSet.getString("bc.tipo")),
+                        resultSet.getInt("cards_amount")
+                );
+                dtos.add(dto);
+            }
+            return dtos;
+        }
+    }
+
 }
