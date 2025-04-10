@@ -87,6 +87,21 @@ public class BoardMenu {
         }
     }
 
+    private void blockCard() throws SQLException {
+        System.out.println("Informe o id do card que será bloqueado");
+        var cardId = sc.nextLong();
+        System.out.println("Informe o motivo do bloqueio do card");
+        var reason = sc.next();
+        var boardColumnsInfo = entity.getBoardColumns().stream()
+                .map(bc -> new BoardColumnInfoDTO(bc.getId(), bc.getOrdem(), bc.getTipo()))
+                .toList();
+        try(var connection = ConnectionConfig.getConnection()){
+            new CardService(connection).block(cardId, reason, boardColumnsInfo);
+        } catch (RuntimeException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
 
     private void cancelCard() throws SQLException {
         System.out.println("Informe o id do card que deseja mover para a coluna de cancelamento");
