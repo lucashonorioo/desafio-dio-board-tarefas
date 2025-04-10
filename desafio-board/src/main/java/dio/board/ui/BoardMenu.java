@@ -61,7 +61,6 @@ public class BoardMenu {
 
 
 
-
     private void createCard() throws SQLException{
         var card = new CardEntity();
         System.out.println("Informe o título do card");
@@ -98,6 +97,18 @@ public class BoardMenu {
         try(var connection = ConnectionConfig.getConnection()){
             new CardService(connection).block(cardId, reason, boardColumnsInfo);
         } catch (RuntimeException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    private void unblockCard() throws SQLException {
+        System.out.println("Informe o id do card que será desbloqueado");
+        var cardId = sc.nextLong();
+        System.out.println("Informe o motivo do desbloqueio do card");
+        var reason = sc.next();
+        try(var connection = ConnectionConfig.getConnection()){
+            new CardService(connection).unblock(cardId, reason);
+        }  catch (RuntimeException ex){
             System.out.println(ex.getMessage());
         }
     }
