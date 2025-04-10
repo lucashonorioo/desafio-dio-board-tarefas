@@ -8,7 +8,7 @@ public record CardDetails(Long id,
                           boolean bloqueio,
                           OffsetDateTime criacao_bloqueio,
                           String descricao_bloqueio,
-                          int valorBloqueio,
+                          int valor_bloqueio,
                           Long columnId,
                           String columnNome) {
 }
