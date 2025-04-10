@@ -3,9 +3,11 @@ package dio.board.ui;
 import dio.board.persistence.config.ConnectionConfig;
 import dio.board.persistence.entity.BoardColumnEntity;
 import dio.board.persistence.entity.BoardEntity;
+import dio.board.persistence.entity.CardEntity;
 import dio.board.service.BoardColumnQueryService;
 import dio.board.service.BoardQueryService;
 import dio.board.service.CardQueryService;
+import dio.board.service.CardService;
 import lombok.AllArgsConstructor;
 
 import java.sql.SQLException;
@@ -20,7 +22,7 @@ public class BoardMenu {
 
     public void execute() {
         try {
-            System.out.printf("Bem vindo ao board %s, selecione uma operação: ");
+            System.out.printf("Bem vindo ao board %s, selecione uma operação: \n");
             var opcao = -1;
             while (opcao != 9) {
                 System.out.println("1 - Criar um card");
@@ -56,7 +58,17 @@ public class BoardMenu {
 
     }
 
-
+    private void createCard() throws SQLException{
+        var card = new CardEntity();
+        System.out.println("Informe o título do card");
+        card.setTitulo(sc.next());
+        System.out.println("Informe a descrição do card");
+        card.setDescricao(sc.next());
+        card.setBoardColumn(entity.getInitialColumn());
+        try(var connection = ConnectionConfig.getConnection()){
+            new CardService(connection).create(card);
+        }
+    }
 
 
     private void showBoard() throws SQLException{

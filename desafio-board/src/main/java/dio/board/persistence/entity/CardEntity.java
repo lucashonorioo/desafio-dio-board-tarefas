@@ -8,6 +8,6 @@ public class CardEntity {
     private Long id;
     private String titulo;
     private String descricao;
-
+    private BoardColumnEntity boardColumn= new BoardColumnEntity();
 
 }

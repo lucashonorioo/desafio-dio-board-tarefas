@@ -1,8 +1,11 @@
 package dio.board.persistence.dao;
 
 import dio.board.dto.CardDetails;
+import dio.board.persistence.entity.CardEntity;
 import lombok.AllArgsConstructor;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -16,6 +19,26 @@ import static java.util.Objects.nonNull;
 public class CardDAO {
 
     private final Connection connection;
+
+    public CardEntity insert(final CardEntity entity) throws SQLException {
+        var sql = "INSERT INTO CARDS (titulo, descricao, board_column_id) values (?, ?, ?);";
+        try (PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            var i = 1;
+            statement.setString(i++, entity.getTitulo());
+            statement.setString(i++, entity.getDescricao());
+            statement.setLong(i, entity.getBoardColumn().getId());
+            statement.executeUpdate();
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    entity.setId(generatedKeys.getLong(1));
+                } else {
+                    throw new SQLException("Falha ao obter o ID gerado automaticamente.");
+                }
+            }
+        }
+        return entity;
+    }
 
     public Optional<CardDetails> findById(final Long id) throws SQLException {
         var sql =
