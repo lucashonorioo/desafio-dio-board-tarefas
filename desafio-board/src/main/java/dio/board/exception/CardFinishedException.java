@@ -1,0 +1,7 @@
+package dio.board.exception;
+
+public class CardFinishedException  extends RuntimeException {
+    public CardFinishedException(final String mgs) {
+        super(mgs);
+    }
+}

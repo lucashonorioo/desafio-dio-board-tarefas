@@ -1,5 +1,6 @@
 package dio.board.ui;
 
+import dio.board.dto.BoardColumnInfoDTO;
 import dio.board.persistence.config.ConnectionConfig;
 import dio.board.persistence.entity.BoardColumnEntity;
 import dio.board.persistence.entity.BoardEntity;
@@ -58,6 +59,8 @@ public class BoardMenu {
 
     }
 
+
+
     private void createCard() throws SQLException{
         var card = new CardEntity();
         System.out.println("Informe o título do card");
@@ -70,6 +73,18 @@ public class BoardMenu {
         }
     }
 
+    private void moveCardToNextColumn() throws SQLException {
+        System.out.println("Informe o id do card que deseja mover para a próxima coluna");
+        var cardId = sc.nextLong();
+        var boardColumnsInfo = entity.getBoardColumns().stream()
+                .map(bc -> new BoardColumnInfoDTO(bc.getId(), bc.getOrdem(), bc.getTipo()))
+                .toList();
+        try(var connection = ConnectionConfig.getConnection()){
+            new CardService(connection).moveToNextColumn(cardId, boardColumnsInfo);
+        } catch (RuntimeException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 
     private void showBoard() throws SQLException{
         try(var connection = ConnectionConfig.getConnection()){
