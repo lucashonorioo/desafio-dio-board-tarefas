@@ -61,6 +61,7 @@ public class BoardMenu {
 
 
 
+
     private void createCard() throws SQLException{
         var card = new CardEntity();
         System.out.println("Informe o título do card");
@@ -85,6 +86,22 @@ public class BoardMenu {
             System.out.println(ex.getMessage());
         }
     }
+
+
+    private void cancelCard() throws SQLException {
+        System.out.println("Informe o id do card que deseja mover para a coluna de cancelamento");
+        var cardId = sc.nextLong();
+        var cancelColumn = entity.getCancelColumn();
+        var boardColumnsInfo = entity.getBoardColumns().stream()
+                .map(bc -> new BoardColumnInfoDTO(bc.getId(), bc.getOrdem(), bc.getTipo()))
+                .toList();
+        try(var connection = ConnectionConfig.getConnection()){
+            new CardService(connection).cancel(cardId, cancelColumn.getId(), boardColumnsInfo);
+        } catch (RuntimeException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
 
     private void showBoard() throws SQLException{
         try(var connection = ConnectionConfig.getConnection()){

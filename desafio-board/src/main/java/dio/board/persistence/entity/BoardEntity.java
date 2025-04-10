@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Data
 public class BoardEntity {
@@ -19,6 +20,16 @@ public class BoardEntity {
     public BoardColumnEntity getInitialColumn(){
         return boardColumns.stream().
                 filter(bc -> bc.getTipo().equals(TipoColumnEnum.INICIAL))
+                .findFirst().orElseThrow();
+    }
+
+    public BoardColumnEntity getCancelColumn(){
+        return getFilteredColumn(bc -> bc.getTipo().equals(TipoColumnEnum.CANCELADO));
+    }
+
+    private BoardColumnEntity getFilteredColumn(Predicate<BoardColumnEntity> filter){
+        return boardColumns.stream()
+                .filter(filter)
                 .findFirst().orElseThrow();
     }
 
